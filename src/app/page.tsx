@@ -2,6 +2,7 @@ import Link from "next/link"
 import { FeaturesSection } from "@/components/ui/feature"
 import CookieBanner from "@/components/ui/cookie"
 import IntroAnimation from "@/components/ui/scroll-morph-hero"
+import { Logos3 } from "@/components/ui/logos3"
 
 export default function Home() {
   return (
@@ -35,6 +36,9 @@ export default function Home() {
       </section>
 
       {/* Gallery and Contact moved to their own pages */}
+
+      {/* Partners Section */}
+      <Logos3 heading="Unsere Partner" />
 
       {/* Footer */}
       <footer className="px-6 py-8">

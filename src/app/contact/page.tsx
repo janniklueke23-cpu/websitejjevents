@@ -2,6 +2,7 @@
 
 import ContactForm from "@/components/ui/contact"
 import { SplineSceneBasic } from "@/components/ui/spline-demo"
+import { Logos3 } from "@/components/ui/logos3"
 
 export default function ContactPage() {
   return (
@@ -19,6 +20,8 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      
+      <Logos3 heading="Unsere Partner" />
     </section>
   )
 }

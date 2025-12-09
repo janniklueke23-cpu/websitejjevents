@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Logos3 } from "@/components/ui/logos3";
 
 export default function GalleryPage() {
   const [media, setMedia] = useState<string[]>([]);
@@ -52,6 +53,8 @@ export default function GalleryPage() {
           })}
         </div>
       </div>
+      
+      <Logos3 heading="Unsere Partner" />
     </section>
   );
 }
