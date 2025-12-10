@@ -171,6 +171,7 @@ export default function IntroAnimation() {
 
     useEffect(() => {
         const target = window;
+        const maxScroll = containerSize.width < 768 ? 1200 : MAX_SCROLL;
 
         const handleWheel = (e: WheelEvent) => {
             if (!containerRef.current) return;
@@ -181,11 +182,11 @@ export default function IntroAnimation() {
             if (!isVisible) return;
 
             const delta = e.deltaY;
-            const newScroll = Math.min(Math.max(scrollRef.current + delta, 0), MAX_SCROLL);
+            const newScroll = Math.min(Math.max(scrollRef.current + delta, 0), maxScroll);
 
             const atTopAndScrollingUp = scrollRef.current <= 0 && delta < 0;
             const wantsExit =
-                delta > 0 && (scrollRef.current >= MAX_SCROLL || isCursorNearBottomRef.current);
+                delta > 0 && (scrollRef.current >= maxScroll || isCursorNearBottomRef.current);
 
             // Only exit hero when user is at end OR hovers near the bottom band
             if (wantsExit) {
@@ -222,10 +223,10 @@ export default function IntroAnimation() {
             const deltaY = touchStartY - touchY;
             touchStartY = touchY;
 
-            const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), MAX_SCROLL);
+            const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), maxScroll);
 
             const atTopAndPullingDown = scrollRef.current <= 0 && deltaY < 0;
-            const atBottomAndPullingUp = scrollRef.current >= MAX_SCROLL && deltaY > 0;
+            const atBottomAndPullingUp = scrollRef.current >= maxScroll && deltaY > 0;
 
             if (atBottomAndPullingUp) {
                 if (!transitionTriggeredRef.current && containerRef.current) {
@@ -254,7 +255,7 @@ export default function IntroAnimation() {
             target.removeEventListener("touchstart", handleTouchStart);
             target.removeEventListener("touchmove", handleTouchMove);
         };
-    }, [virtualScroll]);
+    }, [virtualScroll, containerSize.width]);
 
     // 1. Morph Progress: 0 (Circle) -> 1 (Bottom Arc)
     // Happens between scroll 0 and 700 (faster)
