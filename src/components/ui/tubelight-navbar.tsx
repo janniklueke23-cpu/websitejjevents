@@ -50,7 +50,7 @@ export function NavBar({ items, className }: NavBarProps) {
   }, [hasInteracted])
 
   useEffect(() => {
-    // Show navbar permanently after any scroll or after 3 seconds
+    // Show navbar permanently after any scroll or after 10 seconds
     const scrollListener = () => {
       setHasInteracted(true)
       setIsVisible(true)
@@ -59,7 +59,7 @@ export function NavBar({ items, className }: NavBarProps) {
     const timer = setTimeout(() => {
       setHasInteracted(true)
       setIsVisible(true)
-    }, 3000)
+    }, 10000)
 
     window.addEventListener("scroll", scrollListener)
     return () => {
