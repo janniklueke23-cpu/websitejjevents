@@ -34,7 +34,7 @@ export default function CookieBanner() {
         </div>
         <div className="flex gap-2">
           <button onClick={accept} className="px-3 py-1.5 bg-primary text-primary-foreground rounded-md text-sm">Akzeptieren</button>
-          <a href="#cookies" className="px-3 py-1.5 border border-border rounded-md text-muted-foreground text-sm">Mehr</a>
+          <a href="/cookies" className="px-3 py-1.5 border border-border rounded-md text-muted-foreground text-sm">Mehr</a>
         </div>
       </div>
     </div>
