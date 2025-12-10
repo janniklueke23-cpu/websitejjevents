@@ -59,7 +59,12 @@ export default function RootLayout({
     <html lang="de">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="min-h-screen flex flex-col">
-          <Header />
+          {/* Overlay header for menu bar above hero */}
+          <div className="fixed top-0 left-0 w-full z-[150] pointer-events-none">
+            <div className="pointer-events-auto">
+              <Header />
+            </div>
+          </div>
 
           <main className="flex-1">{children}</main>
 

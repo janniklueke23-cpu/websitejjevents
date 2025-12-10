@@ -28,9 +28,29 @@ function FlipCard({
     target,
     eventText,
 }: FlipCardProps) {
-    
+    const tapTimer = useRef<number | null>(null);
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const handleTap = () => {
+        // Allow tap-to-flip on touch devices for cards that have no hover
+        if (tapTimer.current) {
+            window.clearTimeout(tapTimer.current);
+        }
+        setIsFlipped(true);
+        tapTimer.current = window.setTimeout(() => setIsFlipped(false), 1400);
+    };
+
+    useEffect(() => {
+        return () => {
+            if (tapTimer.current) {
+                window.clearTimeout(tapTimer.current);
+            }
+        };
+    }, []);
+
     return (
         <motion.div
+            onClick={handleTap}
             animate={{
                 x: target.x,
                 y: target.y,
@@ -58,7 +78,11 @@ function FlipCard({
             <motion.div
                 className="relative h-full w-full"
                 style={{ transformStyle: "preserve-3d" }}
+                animate={{ rotateY: isFlipped ? 180 : 0 }}
                 transition={{ duration: 0.65, type: "spring", stiffness: 90, damping: 22 }}
+                onMouseEnter={() => setIsFlipped(true)}
+                onMouseLeave={() => setIsFlipped(false)}
+                onTouchStart={handleTap}
                 whileHover={{ rotateY: 180, scale: 1.03 }}
                 whileTap={{ rotateY: 180, scale: 1.02 }}
             >
@@ -311,14 +335,14 @@ export default function IntroAnimation() {
     const contentY = useTransform(smoothMorph, [0.8, 1], [20, 0]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-full min-h-screen bg-[#FAFAFA] overflow-hidden">
+        <div ref={containerRef} className="relative w-full h-full min-h-screen bg-[#FAFAFA] overflow-hidden z-0">
             <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
                 {/* Top intro text removed as requested */}
 
                 <motion.div
                     style={{ opacity: contentOpacity, y: contentY }}
-                    className="absolute top-[10%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
+                    className="absolute top-[10%] z-0 flex flex-col items-center justify-center text-center pointer-events-none px-4"
                 >
                     <h2 className="text-3xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-4">
                         Unvergessliche Events. Perfekt organisiert
@@ -334,7 +358,7 @@ export default function IntroAnimation() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 text-center"
+                        className="pointer-events-none absolute inset-0 z-0 flex flex-col items-center justify-center gap-3 text-center"
                     >
                         <img
                             src="/jj-events-logo.png"
@@ -347,7 +371,7 @@ export default function IntroAnimation() {
                     </motion.div>
                 )}
 
-                <div className="relative flex items-center justify-center w-full h-full">
+                <div className="relative flex items-center justify-center w-full h-full z-0">
                     {images.slice(0, TOTAL_IMAGES).map((src, i) => {
                         let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
