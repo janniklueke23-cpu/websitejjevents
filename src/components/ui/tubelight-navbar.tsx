@@ -69,46 +69,14 @@ export function NavBar({ items, className }: NavBarProps) {
   }, [])
 
   return (
-    <>
-      <svg className="hidden">
-        <defs>
-          <filter
-            id="container-glass"
-            x="0%"
-            y="0%"
-            width="100%"
-            height="100%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.05 0.05"
-              numOctaves="1"
-              seed="1"
-              result="turbulence"
-            />
-            <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="blurredNoise"
-              scale="70"
-              xChannelSelector="R"
-              yChannelSelector="B"
-              result="displaced"
-            />
-            <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
-            <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-          </filter>
-        </defs>
-      </svg>
-      <div
-        className={cn(
-          "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 transition-all duration-500 ease-out",
-          isVisible ? "translate-y-0 opacity-100" : "-translate-y-full sm:-translate-y-full opacity-0",
-          className,
-        )}
-      >
-        <div className="flex items-center gap-3 bg-white text-foreground border border-gray-200 shadow-md py-1 px-1 rounded-full" style={{ backdropFilter: 'url("#container-glass")' }}>
+    <div
+      className={cn(
+        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 transition-all duration-500 ease-out",
+        isVisible ? "translate-y-0 opacity-100" : "-translate-y-full sm:-translate-y-full opacity-0",
+        className,
+      )}
+    >
+      <div className="flex items-center gap-3 bg-white text-foreground border border-gray-200 shadow-md py-1 px-1 rounded-full">
         {items.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.name
@@ -148,9 +116,8 @@ export function NavBar({ items, className }: NavBarProps) {
               )}
             </Link>
           )
-        )}
+        })}
       </div>
-      </div>
-    </>
+    </div>
   )
 }

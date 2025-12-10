@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { LiquidButton } from "./liquid-glass-button"
 
 export default function ContactForm() {
   const [name, setName] = useState("")
@@ -65,13 +66,14 @@ export default function ContactForm() {
       </div>
 
         <div className="flex items-center gap-4">
-          <button
+          <LiquidButton
             type="submit"
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md disabled:opacity-60"
             disabled={status === "sending"}
+            size="default"
+            variant="default"
           >
             {status === "sending" ? "Senden..." : "Nachricht senden"}
-          </button>
+          </LiquidButton>
 
           {status === "success" && <span className="text-green-600">Danke — wir melden uns bald.</span>}
           {status === "error" && <span className="text-destructive">Fehler beim Senden.</span>}
