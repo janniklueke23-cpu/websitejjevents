@@ -16,8 +16,9 @@ interface FlipCardProps {
 }
 
 // --- FlipCard Component ---
-const IMG_WIDTH = 80;  // Slightly larger to avoid text clipping
-const IMG_HEIGHT = 120; // Slightly larger to avoid text clipping
+// Slightly larger to give multi-line text more room
+const IMG_WIDTH = 90;
+const IMG_HEIGHT = 140;
 
 function FlipCard({
     src,
@@ -75,7 +76,7 @@ function FlipCard({
                     className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-white/90 flex items-center justify-center p-4 border border-gray-200"
                     style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 >
-                    <div className="text-center text-gray-900 font-semibold text-base md:text-lg leading-tight tracking-tight drop-shadow-sm px-2">
+                    <div className="text-center text-gray-900 font-semibold text-base md:text-lg leading-tight tracking-tight drop-shadow-sm px-2 break-words text-balance whitespace-normal">
                         {eventText}
                     </div>
                 </div>
@@ -86,8 +87,8 @@ function FlipCard({
 
 // --- Main Hero Component ---
 const TOTAL_IMAGES = 16;
-// Increase virtual scroll distance to slow down the hero animation
-const MAX_SCROLL = 4000;
+// Shorter virtual scroll for a faster hero animation
+const MAX_SCROLL = 2000;
 
 // Helper for linear interpolation
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
@@ -232,12 +233,12 @@ export default function IntroAnimation() {
     }, [virtualScroll]);
 
     // 1. Morph Progress: 0 (Circle) -> 1 (Bottom Arc)
-    // Happens between scroll 0 and 1200 (slower/longer)
-    const morphProgress = useTransform(virtualScroll, [0, 1200], [0, 1]);
+    // Happens between scroll 0 and 700 (faster)
+    const morphProgress = useTransform(virtualScroll, [0, 700], [0, 1]);
     const smoothMorph = useSpring(morphProgress, { stiffness: 30, damping: 28 });
 
-    // 2. Scroll Rotation (Shuffling): Starts after morph (e.g., > 1200)
-    const scrollRotate = useTransform(virtualScroll, [1200, 4000], [0, 360]);
+    // 2. Scroll Rotation (Shuffling): Starts after morph (e.g., > 700)
+    const scrollRotate = useTransform(virtualScroll, [700, 2000], [0, 360]);
     const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 30, damping: 28 });
 
     // --- Mouse Parallax ---
@@ -416,6 +417,7 @@ export default function IntroAnimation() {
                         );
                     })}
                 </div>
+
             </div>
         </div>
     );

@@ -22,6 +22,8 @@ export default function CookieBanner() {
     setAccepted(true)
   }
 
+  // Avoid initial flash before we know localStorage state
+  if (accepted === null) return null
   if (accepted) return null
 
   return (

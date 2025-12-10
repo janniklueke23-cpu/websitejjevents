@@ -46,7 +46,7 @@
 :root {
   --radius: 0.625rem;
   /* Neutral, accessible palette */
-  --background: #f8fafc; /* light neutral */
+  --background: #ffffff; /* match carousel white */
   --foreground: #0f172a; /* slate-900 */
   --card: #ffffff;
   --card-foreground: #0f172a;

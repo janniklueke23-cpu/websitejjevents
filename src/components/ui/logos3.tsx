@@ -55,15 +55,15 @@ const Logos3 = ({
     },
     {
       id: "logo-6",
-      description: "Clay Paky",
+      description: "sgm",
       image: "https://tse1.mm.bing.net/th/id/OIP.TQ_M3Kqbt-orRRLDB6S8mAHaBl?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
       className: "h-8 w-auto object-contain",
     },
     {
       id: "logo-7",
-      description: "SGM",
-      image: "https://logo.com/image-cdn/images/kts928pd/production/3bb10520d635f2c5f00c3a6d20e21040dc76c0d8-1200x467.png?w=3840&q=72",
-      className: "h-4 w-auto object-contain",
+      description: "Laser Imagineering",
+      image: "http://laser-imagineering.de/pub/css/img/logo.png",
+      className: "h-10 w-auto object-contain",
     },
     {
       id: "logo-8",
@@ -76,6 +76,24 @@ const Logos3 = ({
       description: "Behringer",
       image: "https://latestlogo.com/wp-content/uploads/2024/02/behringer-new-logo.png",
       className: "h-6 w-auto object-contain",
+    },
+    {
+      id: "logo-10",
+      description: "Sommer",
+      image: "https://hbj.ch/images/sommer/sommer-logo-kompakt.png",
+      className: "h-3 w-auto object-contain px-6",
+    },
+    {
+      id: "logo-11",
+      description: "Luxi Light",
+      image: "https://www.luxibel.com/wp-content/uploads/2023/11/Luxibel-logo-rgb.png",
+      className: "h-11 w-auto object-contain px-4",
+    },
+    {
+      id: "logo-12",
+      description: "Apple",
+      image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+      className: "h-10 w-auto object-contain px-6",
     },
   ],
 }: Logos3Props) => {
@@ -98,14 +116,20 @@ const Logos3 = ({
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-6 bg-white">
       <div className="container mx-auto flex flex-col items-center text-center">
-        <h2 className="my-6 text-2xl font-bold text-pretty lg:text-4xl text-black">
+        <h2 className="my-3 text-xl font-bold text-pretty lg:text-3xl text-black">
           {heading}
         </h2>
       </div>
-      <div className="pt-10 md:pt-16 lg:pt-20">
-        <div className="relative mx-auto flex items-center justify-center lg:max-w-5xl">
+      <div className="pt-4 md:pt-6 lg:pt-8">
+        <div
+          className="relative mx-auto flex items-center justify-center lg:max-w-5xl overflow-hidden"
+          style={{
+            maskImage: "linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)",
+          }}
+        >
           <Carousel
             opts={{ loop: true }}
             plugins={[AutoScroll({ playOnInit: true, speed: 1, stopOnInteraction: false })]}
@@ -129,8 +153,8 @@ const Logos3 = ({
               ))}
             </CarouselContent>
           </Carousel>
-          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
-          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
         </div>
       </div>
     </section>
