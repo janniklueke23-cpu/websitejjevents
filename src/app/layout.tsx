@@ -14,9 +14,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "JJ Events — Live Events & Experiences",
-  description: "JJ Events — professional event planning and production.",
+  description: "JJ Events — professionelle Eventplanung, Technik und Umsetzung für Live-Erlebnisse.",
+  openGraph: {
+    title: "JJ Events — Live Events & Experiences",
+    description: "Professionelle Eventplanung, moderne Technik und reibungslose Abläufe für dein Event.",
+    url: siteUrl,
+    siteName: "JJ Events",
+    locale: "de_DE",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JJ Events — Live Events & Experiences",
+    description: "Professionelle Eventplanung, moderne Technik und reibungslose Abläufe für dein Event.",
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
 };
 
 export default function RootLayout({
@@ -24,6 +43,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "JJ Events",
+    url: siteUrl,
+    description: "Professionelle Eventplanung, Technik und Umsetzung für Live-Erlebnisse.",
+    sameAs: [
+      "https://www.facebook.com",
+      "https://www.instagram.com",
+    ],
+  };
+
   return (
     <html lang="de">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -37,6 +68,11 @@ export default function RootLayout({
               © {new Date().getFullYear()} JJ Events — Professionelle Eventplanung.
             </div>
           </footer>
+          <script
+            type="application/ld+json"
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+          />
         </div>
       </body>
     </html>
