@@ -76,7 +76,18 @@ export function NavBar({ items, className }: NavBarProps) {
         className,
       )}
     >
-      <div className="flex items-center gap-3 bg-white text-foreground border border-gray-200 shadow-md py-1 px-1 rounded-full">
+      <div className="relative flex items-center gap-3 py-1 px-1 rounded-full">
+        {/* Liquid glass background */}
+        <div className="absolute inset-0 z-0 h-full w-full rounded-full 
+            shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] 
+            dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]
+            bg-white/90 backdrop-blur-md" 
+        />
+        <div
+          className="absolute inset-0 isolate -z-10 h-full w-full overflow-hidden rounded-full"
+          style={{ backdropFilter: 'url("#navbar-glass-filter")' }}
+        />
+        
         {items.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.name
@@ -87,7 +98,7 @@ export function NavBar({ items, className }: NavBarProps) {
               href={item.url}
               onClick={() => setActiveTab(item.name)}
               className={cn(
-                "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
+                "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors z-10",
                 "text-foreground/80 hover:text-foreground",
                 isActive && "bg-gray-100 text-foreground",
               )}
@@ -117,6 +128,39 @@ export function NavBar({ items, className }: NavBarProps) {
             </Link>
           )
         })}
+        
+        {/* SVG Filter definition */}
+        <svg className="hidden">
+          <defs>
+            <filter
+              id="navbar-glass-filter"
+              x="0%"
+              y="0%"
+              width="100%"
+              height="100%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.05 0.05"
+                numOctaves="1"
+                seed="1"
+                result="turbulence"
+              />
+              <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="blurredNoise"
+                scale="70"
+                xChannelSelector="R"
+                yChannelSelector="B"
+                result="displaced"
+              />
+              <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
+              <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+            </filter>
+          </defs>
+        </svg>
       </div>
     </div>
   )
