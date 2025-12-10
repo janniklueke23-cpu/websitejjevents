@@ -24,7 +24,7 @@ export default function DatenschutzPage() {
 
         <h2 className="text-lg font-semibold mt-4 mb-2">Ihre Rechte</h2>
         <p className="text-sm text-muted-foreground">
-          Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Wenden Sie sich dazu an <a href="mailto:info@jj-events.example" className="underline">info@jj-events.example</a>.
+          Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Wenden Sie sich dazu an <a href="mailto:JJevents.wue@gmail.com" className="underline">JJevents.wue@gmail.com</a>.
         </p>
       </div>
     </main>

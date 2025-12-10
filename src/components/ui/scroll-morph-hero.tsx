@@ -12,13 +12,12 @@ interface FlipCardProps {
     total: number;
     phase: AnimationPhase;
     target: { x: number; y: number; rotation: number; scale: number; opacity: number };
+    eventText: string;
 }
 
 // --- FlipCard Component ---
 const IMG_WIDTH = 80;  // Slightly larger to avoid text clipping
 const IMG_HEIGHT = 120; // Slightly larger to avoid text clipping
-
-const eventTypes = ["Hochzeit", "Geburtstag", "Firmenfeier", "Jubiläum", "Konzert", "Messe"];
 
 function FlipCard({
     src,
@@ -26,8 +25,8 @@ function FlipCard({
     total,
     phase,
     target,
+    eventText,
 }: FlipCardProps) {
-    const eventText = eventTypes[index % eventTypes.length];
     
     return (
         <motion.div
@@ -50,6 +49,8 @@ function FlipCard({
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
                 willChange: "transform, opacity",
+                pointerEvents: "auto",
+                zIndex: 1000 - index, // keep each card hoverable and above overlaps
             }}
             className="cursor-pointer group"
         >
@@ -57,7 +58,8 @@ function FlipCard({
                 className="relative h-full w-full"
                 style={{ transformStyle: "preserve-3d" }}
                 transition={{ duration: 0.65, type: "spring", stiffness: 90, damping: 22 }}
-                whileHover={{ rotateY: 180 }}
+                whileHover={{ rotateY: 180, scale: 1.03 }}
+                whileTap={{ rotateY: 180, scale: 1.02 }}
             >
                 {/* Front Face */}
                 <div
@@ -84,7 +86,8 @@ function FlipCard({
 
 // --- Main Hero Component ---
 const TOTAL_IMAGES = 16;
-const MAX_SCROLL = 3000; // Shorter range to reduce work per scroll
+// Increase virtual scroll distance to slow down the hero animation
+const MAX_SCROLL = 4000;
 
 // Helper for linear interpolation
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
@@ -93,19 +96,21 @@ export default function IntroAnimation() {
     const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
     const [images, setImages] = useState<string[]>([]);
+    const [eventTexts, setEventTexts] = useState<string[]>([]);
     const containerRef = useRef<HTMLDivElement>(null);
     const transitionTriggeredRef = useRef(false);
+    const isCursorNearBottomRef = useRef(false); // allow exit when mouse is near bottom band
 
     // Load gallery images dynamically
     useEffect(() => {
         fetch("/api/hero-animation")
             .then((res) => res.json())
             .then((data) => {
-                const imageFiles = (data.files || []).filter((file: string) => 
-                    !file.endsWith(".mp4") && !file.endsWith(".webm") && !file.endsWith(".ogg")
-                );
-                const urls = imageFiles.map((file: string) => `/hero-animation/${file}`);
+                const eventData = data.files || [];
+                const urls = eventData.map((item: any) => item.image);
+                const texts = eventData.map((item: any) => item.text);
                 setImages(urls.slice(0, TOTAL_IMAGES));
+                setEventTexts(texts.slice(0, TOTAL_IMAGES));
             })
             .catch((err) => console.error("Failed to load hero animation images:", err));
     }, []);
@@ -143,14 +148,22 @@ export default function IntroAnimation() {
         const target = window;
 
         const handleWheel = (e: WheelEvent) => {
+            if (!containerRef.current) return;
+
+            const rect = containerRef.current.getBoundingClientRect();
+            const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+            // If hero is off-screen, let the page scroll normally
+            if (!isVisible) return;
+
             const delta = e.deltaY;
             const newScroll = Math.min(Math.max(scrollRef.current + delta, 0), MAX_SCROLL);
 
             const atTopAndScrollingUp = scrollRef.current <= 0 && delta < 0;
-            const atBottomAndScrollingDown = scrollRef.current >= MAX_SCROLL && delta > 0;
+            const wantsExit =
+                delta > 0 && (scrollRef.current >= MAX_SCROLL || isCursorNearBottomRef.current);
 
-            // If user scrolls past bottom, trigger smooth transition to the next page section
-            if (atBottomAndScrollingDown) {
+            // Only exit hero when user is at end OR hovers near the bottom band
+            if (wantsExit) {
                 if (!transitionTriggeredRef.current && containerRef.current) {
                     transitionTriggeredRef.current = true;
                     const rect = containerRef.current.getBoundingClientRect();
@@ -175,6 +188,12 @@ export default function IntroAnimation() {
 
         const handleTouchMove = (e: TouchEvent) => {
             const touchY = e.touches[0].clientY;
+            if (!containerRef.current) return;
+
+            const rect = containerRef.current.getBoundingClientRect();
+            const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+            if (!isVisible) return;
+
             const deltaY = touchStartY - touchY;
             touchStartY = touchY;
 
@@ -213,12 +232,12 @@ export default function IntroAnimation() {
     }, [virtualScroll]);
 
     // 1. Morph Progress: 0 (Circle) -> 1 (Bottom Arc)
-    // Happens between scroll 0 and 600
-    const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
+    // Happens between scroll 0 and 1200 (slower/longer)
+    const morphProgress = useTransform(virtualScroll, [0, 1200], [0, 1]);
     const smoothMorph = useSpring(morphProgress, { stiffness: 30, damping: 28 });
 
-    // 2. Scroll Rotation (Shuffling): Starts after morph (e.g., > 600)
-    const scrollRotate = useTransform(virtualScroll, [600, 2000], [0, 360]);
+    // 2. Scroll Rotation (Shuffling): Starts after morph (e.g., > 1200)
+    const scrollRotate = useTransform(virtualScroll, [1200, 4000], [0, 360]);
     const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 30, damping: 28 });
 
     // --- Mouse Parallax ---
@@ -232,12 +251,24 @@ export default function IntroAnimation() {
         const handleMouseMove = (e: MouseEvent) => {
             const rect = container.getBoundingClientRect();
             const relativeX = e.clientX - rect.left;
+            const relativeY = e.clientY - rect.top;
 
             const normalizedX = (relativeX / rect.width) * 2 - 1;
             mouseX.set(normalizedX * 60); // reduce parallax amplitude for smoother motion
+
+            const normalizedY = relativeY / rect.height;
+            isCursorNearBottomRef.current = normalizedY >= 0.82;
         };
+        const handleMouseLeave = () => {
+            isCursorNearBottomRef.current = false;
+        };
+
         container.addEventListener("mousemove", handleMouseMove);
-        return () => container.removeEventListener("mousemove", handleMouseMove);
+        container.addEventListener("mouseleave", handleMouseLeave);
+        return () => {
+            container.removeEventListener("mousemove", handleMouseMove);
+            container.removeEventListener("mouseleave", handleMouseLeave);
+        };
     }, [mouseX]);
 
     // --- Intro Sequence ---
@@ -380,6 +411,7 @@ export default function IntroAnimation() {
                                 total={TOTAL_IMAGES}
                                 phase={introPhase}
                                 target={target}
+                                eventText={eventTexts[i] || "Event"}
                             />
                         );
                     })}

@@ -54,7 +54,7 @@ export default function GalleryPage() {
         </div>
       </div>
       
-      <Logos3 heading="Unsere Partner" />
+      <Logos3 heading="Unsere Technik" />
     </section>
   );
 }

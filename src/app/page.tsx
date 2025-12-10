@@ -3,6 +3,7 @@ import { FeaturesSection } from "@/components/ui/feature"
 import CookieBanner from "@/components/ui/cookie"
 import IntroAnimation from "@/components/ui/scroll-morph-hero"
 import { Logos3 } from "@/components/ui/logos3"
+import { GlowingEffectDemo } from "@/components/ui/glowing-effect-demo"
 
 export default function Home() {
   return (
@@ -15,30 +16,22 @@ export default function Home() {
       {/* Hero section removed between IntroAnimation and About as requested */}
 
       {/* Services */}
-      <section id="services" className="px-6 min-h-screen bg-background flex items-center">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-8">Leistungen</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-card rounded-xl p-6 shadow-sm">
-              <h3 className="font-semibold mb-2">Eventplanung</h3>
-              <p className="text-sm text-muted-foreground">Komplettes Management von Konzept bis Durchführung.</p>
-            </div>
-            <div className="bg-card rounded-xl p-6 shadow-sm">
-              <h3 className="font-semibold mb-2">Beratung</h3>
-              <p className="text-sm text-muted-foreground">Strategische Beratung für Markenauftritte und Programme.</p>
-            </div>
-            <div className="bg-card rounded-xl p-6 shadow-sm">
-              <h3 className="font-semibold mb-2">Organisation</h3>
-              <p className="text-sm text-muted-foreground">Technik, Logistik und Ablaufplanung für reibungslose Events.</p>
-            </div>
+      <section id="services" className="px-6 py-24 bg-background">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="space-y-3">
+            <h2 className="text-2xl font-semibold md:text-3xl">Was wir bieten</h2>
+            <p className="text-sm text-muted-foreground md:text-base">
+              Schneller Überblick über Leistungen und nächste Schritte.
+            </p>
           </div>
+          <GlowingEffectDemo />
         </div>
       </section>
 
       {/* Gallery and Contact moved to their own pages */}
 
       {/* Partners Section */}
-      <Logos3 heading="Unsere Partner" />
+      <Logos3 heading="Unsere Technik" />
 
       {/* Footer */}
       <footer className="px-6 py-8">

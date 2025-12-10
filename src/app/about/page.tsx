@@ -27,7 +27,7 @@ export default function AboutPage() {
           </motion.p>
         </div>
       </LampContainer>
-      <Logos3 heading="Unsere Partner" />
+      <Logos3 heading="Unsere Technik" />
     </>
   )
 }
