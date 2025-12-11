@@ -71,12 +71,12 @@ export function NavBar({ items, className }: NavBarProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 transition-all duration-500 ease-out pointer-events-auto",
+        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 transition-all duration-500 ease-out pointer-events-none",
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full sm:-translate-y-full opacity-0",
         className,
       )}
     >
-      <div className="relative flex items-center gap-3 py-1 px-1 rounded-full">
+      <div className="relative flex items-center gap-3 py-1 px-1 rounded-full pointer-events-auto">
         {/* Liquid glass background */}
         <div className="absolute inset-0 z-0 h-full w-full rounded-full 
             shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] 
