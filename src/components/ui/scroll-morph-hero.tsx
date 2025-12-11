@@ -345,7 +345,7 @@ export default function IntroAnimation() {
 
                 <motion.div
                     style={{ opacity: contentOpacity, y: contentY }}
-                    className="absolute top-[10%] z-20 flex flex-col items-center justify-center text-center pointer-events-none px-4"
+                    className="absolute top-[5%] md:top-[10%] z-20 flex flex-col items-center justify-center text-center pointer-events-none px-4"
                 >
                     <h2 className="text-3xl md:text-5xl font-semibold text-gray-900 dark:text-white tracking-tight mb-4">
                         Unvergessliche Events. Perfekt organisiert
@@ -366,12 +366,12 @@ export default function IntroAnimation() {
                         <img
                             src="/jj-events-logo.png"
                             alt="JJ Events"
-                            className="h-20 w-auto sm:h-24 md:h-28 invert brightness-110 contrast-110 dark:hidden"
+                            className="h-20 w-auto sm:h-24 md:h-28 invert brightness-110 contrast-110 block dark:hidden"
                         />
                         <img
                             src="/jj-events-logo-dark.png"
                             alt="JJ Events"
-                            className="h-20 w-auto sm:h-24 md:h-28 dark:block hidden"
+                            className="h-20 w-auto sm:h-24 md:h-28 hidden dark:block"
                         />
                         <span className="text-xs sm:text-sm md:text-base font-medium text-white dark:text-gray-100 tracking-wide">
                             {isMobileDevice ? "Swipe" : "Scroll"} to explore
