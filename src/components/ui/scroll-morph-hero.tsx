@@ -77,7 +77,7 @@ function FlipCard({
                 perspective: "1000px",
                 willChange: "transform, opacity",
                 pointerEvents: "auto",
-                zIndex: 1000 - index, // keep each card hoverable and above overlaps
+                zIndex: 1000 + (1000 - index), // ensure cards are above navbar (z-150)
             }}
             className="cursor-pointer group"
         >
