@@ -8,8 +8,8 @@ export default function ContactPage() {
   return (
     <section className="px-6 py-12">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-2">Contact JJ Events</h2>
-        <p className="text-muted-foreground mb-8">Tell us about your event — we'll reply within 48 hours.</p>
+        <h2 className="text-2xl font-semibold mb-2">Kontakt JJ Events</h2>
+        <p className="text-muted-foreground mb-8">Erzählen Sie uns von Ihrem Event — wir melden uns innerhalb von 48 Stunden.</p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div className="space-y-6">
