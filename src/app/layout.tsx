@@ -60,7 +60,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-black text-foreground transition-colors duration-300`}>
         <div className="min-h-screen flex flex-col">
           {/* Overlay header for menu bar above hero */}
-          <div className="fixed top-0 left-0 w-full z-[150]">
+          <div className="fixed top-0 left-0 w-full z-[150] pointer-events-none">
             <Header />
           </div>
 

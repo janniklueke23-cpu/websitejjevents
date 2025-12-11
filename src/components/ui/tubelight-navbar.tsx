@@ -71,7 +71,7 @@ export function NavBar({ items, className }: NavBarProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 transition-all duration-500 ease-out",
+        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 transition-all duration-500 ease-out pointer-events-auto",
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full sm:-translate-y-full opacity-0",
         className,
       )}
