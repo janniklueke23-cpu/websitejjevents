@@ -26,7 +26,7 @@ interface Logos3Props {
   className?: string;
 }
 
-const Logos3 = ({
+export default function Logos3Component({
   heading = "Unsere Technik",
   logos = [
     {
@@ -96,11 +96,16 @@ const Logos3 = ({
       className: "h-10 w-auto object-contain px-6",
     },
   ],
-}: Logos3Props) => {
+}: Logos3Props) {
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   if (!isMounted) {
@@ -116,9 +121,9 @@ const Logos3 = ({
   }
 
   return (
-    <section className="py-6 bg-white">
+    <section className="py-6 bg-white dark:bg-black">
       <div className="container mx-auto flex flex-col items-center text-center">
-        <h2 className="my-3 text-xl font-bold text-pretty lg:text-3xl text-black">
+        <h2 className="my-3 text-xl font-bold text-pretty lg:text-3xl text-black dark:text-white">
           {heading}
         </h2>
       </div>
@@ -132,15 +137,15 @@ const Logos3 = ({
         >
           <Carousel
             opts={{ loop: true }}
-            plugins={[AutoScroll({ playOnInit: true, speed: 1, stopOnInteraction: false })]}
+            plugins={[AutoScroll({ playOnInit: true, speed: isMobile ? 2 : 1, stopOnInteraction: false })]}
           >
             <CarouselContent className="ml-0">
               {logos.map((logo) => (
                 <CarouselItem
                   key={logo.id}
-                  className="flex basis-1/3 justify-center pl-0 sm:basis-1/4 md:basis-1/5 lg:basis-1/6"
+                  className="flex basis-1/2 justify-center pl-0 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6"
                 >
-                  <div className="mx-16 flex shrink-0 items-center justify-center">
+                  <div className="mx-3 sm:mx-6 md:mx-10 lg:mx-16 flex shrink-0 items-center justify-center">
                     <div>
                       <img
                         src={logo.image}
@@ -153,12 +158,12 @@ const Logos3 = ({
               ))}
             </CarouselContent>
           </Carousel>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white dark:from-black via-white/80 dark:via-black/80 to-transparent"></div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white dark:from-black via-white/80 dark:via-black/80 to-transparent"></div>
         </div>
       </div>
     </section>
   );
 };
 
-export { Logos3 };
+export { Logos3Component as Logos3 };

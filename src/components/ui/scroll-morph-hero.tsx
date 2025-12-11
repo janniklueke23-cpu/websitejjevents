@@ -97,7 +97,7 @@ function FlipCard({
 
                 {/* Back Face */}
                 <div
-                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-white/90 flex items-center justify-center p-4 border border-gray-200"
+                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-white/90 dark:bg-black/90 flex items-center justify-center p-4 border border-gray-200 dark:border-gray-800"
                     style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 >
                     <div className="text-center text-gray-900 font-semibold text-base md:text-lg leading-tight tracking-tight drop-shadow-sm px-2 break-words text-balance whitespace-normal">
@@ -125,16 +125,6 @@ export default function IntroAnimation() {
     const containerRef = useRef<HTMLDivElement>(null);
     const transitionTriggeredRef = useRef(false);
     const isCursorNearBottomRef = useRef(false); // allow exit when mouse is near bottom band
-
-    // Check if mobile
-    const isMobileView = containerSize.width < 768;
-
-    // On mobile, skip animation phases and stay in circle
-    useEffect(() => {
-        if (isMobileView) {
-            setIntroPhase("circle");
-        }
-    }, [isMobileView]);
 
     // Load gallery images dynamically
     useEffect(() => {
@@ -181,7 +171,8 @@ export default function IntroAnimation() {
 
     useEffect(() => {
         const target = window;
-        const maxScroll = containerSize.width < 768 ? 1200 : MAX_SCROLL;
+        const isMobile = containerSize.width < 768;
+        const maxScroll = isMobile ? 1500 : MAX_SCROLL;
 
         const handleWheel = (e: WheelEvent) => {
             if (!containerRef.current) return;
@@ -198,8 +189,8 @@ export default function IntroAnimation() {
             const wantsExit =
                 delta > 0 && (scrollRef.current >= maxScroll || isCursorNearBottomRef.current);
 
-            // Only exit hero when user is at end OR hovers near the bottom band (skip on mobile)
-            if (wantsExit && !isMobileView) {
+            // Only exit hero when user is at end OR hovers near the bottom band
+            if (wantsExit) {
                 if (!transitionTriggeredRef.current && containerRef.current) {
                     transitionTriggeredRef.current = true;
                     const rect = containerRef.current.getBoundingClientRect();
@@ -233,12 +224,13 @@ export default function IntroAnimation() {
             const deltaY = touchStartY - touchY;
             touchStartY = touchY;
 
-            const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), maxScroll);
+            const scaledDeltaY = isMobile ? deltaY * 3 : deltaY;
+            const newScroll = Math.min(Math.max(scrollRef.current + scaledDeltaY, 0), maxScroll);
 
             const atTopAndPullingDown = scrollRef.current <= 0 && deltaY < 0;
             const atBottomAndPullingUp = scrollRef.current >= maxScroll && deltaY > 0;
 
-            if (atBottomAndPullingUp && !isMobileView) {
+            if (atBottomAndPullingUp) {
                 if (!transitionTriggeredRef.current && containerRef.current) {
                     transitionTriggeredRef.current = true;
                     const rect = containerRef.current.getBoundingClientRect();
@@ -267,13 +259,13 @@ export default function IntroAnimation() {
         };
     }, [virtualScroll, containerSize.width]);
 
-    // 1. Morph Progress: 0 (Circle) -> 1 (Bottom Arc)
-    // Happens between scroll 0 and 700 (faster)
-    const morphProgress = useTransform(virtualScroll, [0, 700], [0, 1]);
+    const isMobileDevice = containerSize.width < 768;
+    const morphEnd = isMobileDevice ? 400 : 700;
+    const rotateEnd = isMobileDevice ? 1500 : 2000;
+    const morphProgress = useTransform(virtualScroll, [0, morphEnd], [0, 1]);
     const smoothMorph = useSpring(morphProgress, { stiffness: 30, damping: 28 });
 
-    // 2. Scroll Rotation (Shuffling): Starts after morph (e.g., > 700)
-    const scrollRotate = useTransform(virtualScroll, [700, 2000], [0, 360]);
+    const scrollRotate = useTransform(virtualScroll, [morphEnd, rotateEnd], [0, 360]);
     const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 30, damping: 28 });
 
     // --- Mouse Parallax ---
@@ -346,38 +338,43 @@ export default function IntroAnimation() {
     const contentY = useTransform(smoothMorph, [0.8, 1], [20, 0]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-full min-h-screen bg-[#FAFAFA] overflow-hidden z-0">
+        <div ref={containerRef} className="relative w-full h-full min-h-screen bg-[#FAFAFA] dark:bg-black overflow-hidden">
             <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
                 {/* Top intro text removed as requested */}
 
                 <motion.div
                     style={{ opacity: contentOpacity, y: contentY }}
-                    className="absolute top-[10%] z-0 flex flex-col items-center justify-center text-center pointer-events-none px-4"
+                    className="absolute top-[10%] z-20 flex flex-col items-center justify-center text-center pointer-events-none px-4"
                 >
-                    <h2 className="text-3xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-4">
+                    <h2 className="text-3xl md:text-5xl font-semibold text-gray-900 dark:text-white tracking-tight mb-4">
                         Unvergessliche Events. Perfekt organisiert
                     </h2>
-                    <p className="text-sm md:text-base text-gray-600 max-w-lg leading-relaxed">
+                    <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 max-w-lg leading-relaxed">
                         Planung, Technik, Umsetzung – alles aus einer Hand.
                     </p>
                 </motion.div>
 
-                {introPhase === "circle" && (isMobileView || morphValue < 0.6) && (
+                {introPhase === "circle" && morphValue < 0.6 && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="pointer-events-none absolute inset-0 z-0 flex flex-col items-center justify-center gap-3 text-center"
+                        className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 text-center"
                     >
                         <img
                             src="/jj-events-logo.png"
                             alt="JJ Events"
-                            className="h-24 w-auto md:h-28 mix-blend-multiply brightness-110 contrast-110"
+                            className="h-20 w-auto sm:h-24 md:h-28 invert brightness-110 contrast-110 dark:hidden"
                         />
-                        <span className="text-sm md:text-base font-medium text-gray-800 tracking-wide">
-                            {isMobileView ? "Tap to see more" : "Scroll to explore"}
+                        <img
+                            src="/jj-events-logo-dark.png"
+                            alt="JJ Events"
+                            className="h-20 w-auto sm:h-24 md:h-28 dark:block hidden"
+                        />
+                        <span className="text-xs sm:text-sm md:text-base font-medium text-white dark:text-gray-100 tracking-wide">
+                            {isMobileDevice ? "Swipe" : "Scroll"} to explore
                         </span>
                     </motion.div>
                 )}
