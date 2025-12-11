@@ -100,7 +100,7 @@ function FlipCard({
                     className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-white/90 dark:bg-black/90 flex items-center justify-center p-4 border border-gray-200 dark:border-gray-800"
                     style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 >
-                    <div className="text-center text-gray-900 font-semibold text-base md:text-lg leading-tight tracking-tight drop-shadow-sm px-2 break-words text-balance whitespace-normal">
+                    <div className="text-center text-white font-semibold text-base md:text-lg leading-tight tracking-tight drop-shadow-sm px-2 break-words text-balance whitespace-normal">
                         {eventText}
                     </div>
                 </div>
