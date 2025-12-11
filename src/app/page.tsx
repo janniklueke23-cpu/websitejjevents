@@ -16,7 +16,7 @@ export default function Home() {
       {/* Hero section removed between IntroAnimation and About as requested */}
 
       {/* Services */}
-      <section id="services" className="px-6 py-24 bg-background">
+      <section id="services" className="px-6 py-24 bg-background dark:bg-black">
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="space-y-3">
             <h2 className="text-2xl font-semibold md:text-3xl">Was wir bieten</h2>
