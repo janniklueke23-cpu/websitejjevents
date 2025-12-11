@@ -74,13 +74,13 @@ export default function ContactForm() {
         <EventTypeDropdown value={eventType} onChange={setEventType} />
       </div>
 
-      <div>
+      <div className="relative z-10">
         <label className="block text-sm mb-1">Event-Datum</label>
         <Calendar
           value={eventDate}
           onChange={setEventDate}
           allowClear
-          showTimeInput={false}
+          showTimeInput={true}
           minValue={new Date()}
         />
       </div>
@@ -96,7 +96,7 @@ export default function ContactForm() {
         />
       </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 relative z-0">
           <LiquidButton
             type="submit"
             disabled={status === "sending"}
