@@ -370,14 +370,14 @@ export default function IntroAnimation() {
                         className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-start pt-[60%] md:justify-center md:pt-0 gap-3 text-center"
                     >
                         <img
-                            src="/jj-events-logo-dark.png"
+                            src="/jj-events-light.png"
                             alt="JJ Events"
                             className="h-20 w-auto sm:h-24 md:h-28 block dark:hidden"
                         />
                         <img
-                            src="/jj-events-logo.png"
+                            src="/jj-events-dark.png"
                             alt="JJ Events"
-                            className="h-20 w-auto sm:h-24 md:h-28 hidden dark:block invert brightness-110 contrast-110"
+                            className="h-20 w-auto sm:h-24 md:h-28 hidden dark:block"
                         />
                         <span className="text-xs sm:text-sm md:text-base font-medium text-black dark:text-white tracking-wide">
                             {isMobileDevice ? "Swipe" : "Scroll"} to explore
