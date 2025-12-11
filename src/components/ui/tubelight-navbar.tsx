@@ -100,7 +100,7 @@ export function NavBar({ items, className }: NavBarProps) {
               className={cn(
                 "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors z-10",
                 "text-foreground/80 hover:text-foreground",
-                isActive && "bg-gray-100 text-foreground",
+                isActive && "bg-gray-100 dark:bg-gray-700 text-foreground",
               )}
             >
               <span className="hidden md:inline">{item.name}</span>
@@ -110,7 +110,7 @@ export function NavBar({ items, className }: NavBarProps) {
               {isActive && (
                 <motion.div
                   layoutId="lamp"
-                  className="absolute inset-0 w-full bg-gray-100 rounded-full -z-10"
+                  className="absolute inset-0 w-full bg-gray-100 dark:bg-gray-700 rounded-full -z-10"
                   initial={false}
                   transition={{
                     type: "spring",
