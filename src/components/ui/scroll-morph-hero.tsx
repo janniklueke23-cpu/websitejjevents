@@ -361,7 +361,7 @@ export default function IntroAnimation() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-center gap-3 text-center"
+                        className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-start pt-[28%] md:justify-center md:pt-0 gap-3 text-center"
                     >
                         <img
                             src="/jj-events-logo.png"
