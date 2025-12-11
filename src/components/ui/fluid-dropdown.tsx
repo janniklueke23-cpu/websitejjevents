@@ -109,7 +109,7 @@ export function EventTypeDropdown({ value, onChange }: EventTypeDropdownProps) {
     eventTypes.find(e => e.id === value) || eventTypes[0]
   )
   const [hoveredEventType, setHoveredEventType] = React.useState<string | null>(null)
-  const dropdownRef = React.useRef<HTMLDivElement>(null)
+  const dropdownRef = React.useRef<HTMLDivElement | null>(null)
 
   useClickAway(dropdownRef, () => setIsOpen(false))
 
