@@ -1,10 +1,14 @@
 "use client"
 import { useState } from "react"
 import { LiquidButton } from "./liquid-glass-button"
+import { EventTypeDropdown } from "./fluid-dropdown"
+import { Calendar, RangeValue } from "./calendar"
 
 export default function ContactForm() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [eventType, setEventType] = useState("Alle Event-Typen")
+  const [eventDate, setEventDate] = useState<RangeValue | null>(null)
   const [message, setMessage] = useState("")
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle")
 
@@ -15,13 +19,24 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ 
+          name, 
+          email, 
+          eventType, 
+          eventDate: eventDate ? {
+            start: eventDate.start?.toISOString(),
+            end: eventDate.end?.toISOString()
+          } : null,
+          message 
+        }),
       })
 
       if (res.ok) {
         setStatus("success")
         setName("")
         setEmail("")
+        setEventType("Alle Event-Typen")
+        setEventDate(null)
         setMessage("")
       } else {
         setStatus("error")
@@ -51,6 +66,22 @@ export default function ContactForm() {
           type="email"
           required
           className="mt-1 w-full rounded-md border border-border px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm mb-1">Event-Typ</label>
+        <EventTypeDropdown value={eventType} onChange={setEventType} />
+      </div>
+
+      <div>
+        <label className="block text-sm mb-1">Event-Datum</label>
+        <Calendar
+          value={eventDate}
+          onChange={setEventDate}
+          allowClear
+          showTimeInput={false}
+          minValue={new Date()}
         />
       </div>
 
