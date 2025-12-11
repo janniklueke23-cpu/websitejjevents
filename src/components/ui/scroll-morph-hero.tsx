@@ -13,12 +13,16 @@ interface FlipCardProps {
     phase: AnimationPhase;
     target: { x: number; y: number; rotation: number; scale: number; opacity: number };
     eventText: string;
+    imgWidth: number;
+    imgHeight: number;
 }
 
 // --- FlipCard Component ---
 // Slightly larger to give multi-line text more room
 const IMG_WIDTH = 90;
 const IMG_HEIGHT = 140;
+const IMG_WIDTH_DESKTOP = 104; // 15% larger: 90 * 1.15
+const IMG_HEIGHT_DESKTOP = 161; // 15% larger: 140 * 1.15
 
 function FlipCard({
     src,
@@ -27,6 +31,8 @@ function FlipCard({
     phase,
     target,
     eventText,
+    imgWidth,
+    imgHeight,
 }: FlipCardProps) {
     const tapTimer = useRef<number | null>(null);
     const [isFlipped, setIsFlipped] = useState(false);
@@ -65,8 +71,8 @@ function FlipCard({
             }}
             style={{
                 position: "absolute",
-                width: IMG_WIDTH,
-                height: IMG_HEIGHT,
+                width: imgWidth,
+                height: imgHeight,
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
                 willChange: "transform, opacity",
@@ -445,6 +451,8 @@ export default function IntroAnimation() {
                                 phase={introPhase}
                                 target={target}
                                 eventText={eventTexts[i] || "Event"}
+                                imgWidth={containerSize.width < 768 ? IMG_WIDTH : IMG_WIDTH_DESKTOP}
+                                imgHeight={containerSize.width < 768 ? IMG_HEIGHT : IMG_HEIGHT_DESKTOP}
                             />
                         );
                     })}
