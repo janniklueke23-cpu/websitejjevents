@@ -385,7 +385,7 @@ export default function IntroAnimation() {
                     </motion.div>
                 )}
 
-                <div className="relative flex items-center justify-center w-full h-full z-[160] -translate-y-[15%] md:translate-y-0">
+                <div className="relative flex items-center justify-center w-full h-full z-0 -translate-y-[15%] md:translate-y-0">
                     {images.slice(0, TOTAL_IMAGES).map((src, i) => {
                         let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
