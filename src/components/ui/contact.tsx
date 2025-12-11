@@ -55,7 +55,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-sm">Message</label>
+        <label className="block text-sm">Nachricht</label>
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
