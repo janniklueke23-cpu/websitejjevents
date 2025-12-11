@@ -689,7 +689,6 @@ export const Calendar = ({
       }
       setIsSelecting(false);
       setHoverDate(null);
-      setIsOpen(false);
     }
   };
 
@@ -734,6 +733,7 @@ export const Calendar = ({
         start: fromZonedTime(parsedStart, selectedTimezone),
         end: fromZonedTime(parsedEnd, selectedTimezone)
       });
+      setIsOpen(false);
     }
   };
 
