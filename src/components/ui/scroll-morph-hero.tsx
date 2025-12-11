@@ -370,12 +370,12 @@ export default function IntroAnimation() {
                         className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-start pt-[60%] md:justify-center md:pt-0 gap-3 text-center"
                     >
                         <img
-                            src="/jj-events-light.png"
+                            src="/jj-events-logo-light.png"
                             alt="JJ Events"
                             className="h-20 w-auto sm:h-24 md:h-28 block dark:hidden"
                         />
                         <img
-                            src="/jj-events-dark.png"
+                            src="/jj-events-logo-dark.png"
                             alt="JJ Events"
                             className="h-20 w-auto sm:h-24 md:h-28 hidden dark:block"
                         />
