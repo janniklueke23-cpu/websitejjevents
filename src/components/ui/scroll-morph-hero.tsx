@@ -103,7 +103,7 @@ function FlipCard({
 
                 {/* Back Face */}
                 <div
-                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-white/90 dark:bg-black/90 flex items-center justify-center p-4 border border-gray-200 dark:border-gray-800"
+                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-black/90 dark:bg-black/90 flex items-center justify-center p-4 border border-gray-200 dark:border-gray-800"
                     style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 >
                     <div className="text-center text-white font-semibold text-base md:text-lg leading-tight tracking-tight drop-shadow-sm px-2 break-words text-balance whitespace-normal">
@@ -370,16 +370,16 @@ export default function IntroAnimation() {
                         className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-start pt-[60%] md:justify-center md:pt-0 gap-3 text-center"
                     >
                         <img
-                            src="/jj-events-logo.png"
-                            alt="JJ Events"
-                            className="h-20 w-auto sm:h-24 md:h-28 invert brightness-110 contrast-110 block dark:hidden"
-                        />
-                        <img
                             src="/jj-events-logo-dark.png"
                             alt="JJ Events"
-                            className="h-20 w-auto sm:h-24 md:h-28 hidden dark:block"
+                            className="h-20 w-auto sm:h-24 md:h-28 block dark:hidden"
                         />
-                        <span className="text-xs sm:text-sm md:text-base font-medium text-white dark:text-gray-100 tracking-wide">
+                        <img
+                            src="/jj-events-logo.png"
+                            alt="JJ Events"
+                            className="h-20 w-auto sm:h-24 md:h-28 hidden dark:block invert brightness-110 contrast-110"
+                        />
+                        <span className="text-xs sm:text-sm md:text-base font-medium text-black dark:text-white tracking-wide">
                             {isMobileDevice ? "Swipe" : "Scroll"} to explore
                         </span>
                     </motion.div>
