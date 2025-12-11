@@ -126,6 +126,16 @@ export default function IntroAnimation() {
     const transitionTriggeredRef = useRef(false);
     const isCursorNearBottomRef = useRef(false); // allow exit when mouse is near bottom band
 
+    // Check if mobile
+    const isMobileView = containerSize.width < 768;
+
+    // On mobile, skip animation phases and stay in circle
+    useEffect(() => {
+        if (isMobileView) {
+            setIntroPhase("circle");
+        }
+    }, [isMobileView]);
+
     // Load gallery images dynamically
     useEffect(() => {
         fetch("/api/hero-animation")
@@ -188,8 +198,8 @@ export default function IntroAnimation() {
             const wantsExit =
                 delta > 0 && (scrollRef.current >= maxScroll || isCursorNearBottomRef.current);
 
-            // Only exit hero when user is at end OR hovers near the bottom band
-            if (wantsExit) {
+            // Only exit hero when user is at end OR hovers near the bottom band (skip on mobile)
+            if (wantsExit && !isMobileView) {
                 if (!transitionTriggeredRef.current && containerRef.current) {
                     transitionTriggeredRef.current = true;
                     const rect = containerRef.current.getBoundingClientRect();
@@ -228,7 +238,7 @@ export default function IntroAnimation() {
             const atTopAndPullingDown = scrollRef.current <= 0 && deltaY < 0;
             const atBottomAndPullingUp = scrollRef.current >= maxScroll && deltaY > 0;
 
-            if (atBottomAndPullingUp) {
+            if (atBottomAndPullingUp && !isMobileView) {
                 if (!transitionTriggeredRef.current && containerRef.current) {
                     transitionTriggeredRef.current = true;
                     const rect = containerRef.current.getBoundingClientRect();
@@ -353,7 +363,7 @@ export default function IntroAnimation() {
                     </p>
                 </motion.div>
 
-                {introPhase === "circle" && morphValue < 0.6 && (
+                {introPhase === "circle" && (isMobileView || morphValue < 0.6) && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -367,7 +377,7 @@ export default function IntroAnimation() {
                             className="h-24 w-auto md:h-28 mix-blend-multiply brightness-110 contrast-110"
                         />
                         <span className="text-sm md:text-base font-medium text-gray-800 tracking-wide">
-                            Scroll to explore
+                            {isMobileView ? "Tap to see more" : "Scroll to explore"}
                         </span>
                     </motion.div>
                 )}
