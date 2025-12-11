@@ -657,12 +657,12 @@ export const Calendar = ({
   useClickOutside(calendarRef, () => setIsOpen(false));
 
   useEffect(() => {
-    window.addEventListener("resize", () => setIsOpen(false));
-    window.addEventListener("scroll", () => setIsOpen(false));
+    const handleResize = () => setIsOpen(false);
+    
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", () => setIsOpen(false));
-      window.removeEventListener("scroll", () => setIsOpen(false));
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
